@@ -1,0 +1,39 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.dao.PinlunDao">
+	<select id="queryCount" resultType="long">
+		select count(*) from t_pinlun pin,t_emp te,t_kehu cus where pin.emp_id=te.id and pin.cus_id=cus.id
+	</select>
+	
+	<select id="querList" resultType="com.jk.vo.Pinlun">
+		select pin.id,pin.text,te.Employee as "emp",pin.des_date,cus.customer as "cusname" from t_pinlun pin,t_emp te,t_kehu cus where pin.emp_id=te.id and pin.cus_id=cus.id limit #{sta},#{end}
+	</select>
+	
+	<select id="queryTempOption" resultType="com.jk.vo.TEmp">
+		select * from t_emp te
+	</select>
+	
+	<select id="queryCustomerOption" resultType="com.jk.vo.TCustomer">
+		select * from t_kehu cus
+	</select>
+	
+	
+	<insert id="addPinglun">
+		insert into t_pinlun(cus_id,emp_id,text,des_date) 
+		values(
+			#{cus_id},#{emp_id},#{text},#{des_date}
+		)
+	</insert>
+	
+	<delete id="deletePinglun">
+		delete from t_pinlun where id =#{id}
+	</delete>
+	
+	<select id="queryPinglunById"  resultType="com.jk.vo.Pinlun">
+		select * from t_pinlun where id = #{id}
+	</select>
+	
+	<update id="updatePinglun" >
+		update t_pinlun set cus_id=#{cus_id},emp_id=#{emp_id},text=#{text},des_date=#{des_date} where id =#{id}
+	</update>
+</mapper>
